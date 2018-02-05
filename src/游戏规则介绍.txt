@@ -1,0 +1,38 @@
+Class Game - Deterministic version
+
+The game we are implementing is a contest between two teams.  Each team consists
+of four characters, chosen from among the following four types:
+
+Wizard
+Knight
+Archer
+Healer
+
+There can be no more than one Wizard and one Healer.  Otherwise, you can choose
+your own team members.
+
+On the board will be a castle for each team.  The objective of the game is to kill off the characters of the other team.
+
+The game is played in rounds.  In each round, each character will be asked what their action is.  The game program will then execute the actions of all characters at the same time, resolving any conflicts.  You will write Java code for each of your characters and submit it to the TA and me.  The code will be added to the game program, the start method will be modified to position your characters where you want them to be initially, and the same will be done for another team.  The program will then be compiled and run to see which team wins. 
+There will be a tournament between all the teams submitted by the class.
+
+In each round, each character will have its setAction method called.  This method will have the stage, props and cast objects as arguments.  This method returns a String that says what the character's action is.  All characters can move one tile at a time (30 pixels), in the four orthogonal directions.  Thus, if the string "mu" is returned, it means that the character should move one tile up on the screen. The four directions are u - up, d - down, l - left, r - right.
+A character can do nothing too, in which case the setAction method should return "  ".
+
+Each type of character has one or two types of attack actions that they can do instead of moving.  Here are the attack actions for each type of character.
+
+Wizard - The wizard can throw a fireball to some location.  Such a command would
+look like "f7u3r" meaning that the fireball lands on the tile that is 7 tiles up from the wizard and 3 tiles to the right of the wizard.  Only single digits may be used, so the farthest a fireball can be thrown would be to 9u9r.  The effect of the fireball is that that location and the eight neighboring tiles are set on fire for three rounds.  Any character (including the wizard who threw the fireball) will lose 0.5 hit points for each round it is on the tiles that are on fire.  The wizard does not have a melee attack. (No "a" command.)  The wizard can only throw the fireball once during the whole game.
+
+Knight - The knight can only do melee attacks.  So a command from a knight might be "ar" which means that he attacks the tile to his right.
+
+Archer - The archer has a melee attack such as "al".  The archer also has a range attack, which is firing an arrow in any of the eight directions.  This is specified by a three-character string such as "sur".  This fires an arrow in the diagonal direction going up and to the right.  The command "srr" would fire an arrow directly to the right.  The arrow will travel up to four tiles away.  It hits the first character it reaches and causes it to lose one hit point. As implemented so far, the icon for the archer is a dragon, so you can think of it spewing a stream of fire in one of the eight directions.  It will dock a hit point off any character on the line of fire, not just the nearest one.
+
+Healer - The healer has a melee attack such as "ar".  It also has a healing action.  If it is next to a character (horizontally or vertically), it can reset the hit points of that character to its original value.  The command "hu" heals a character on the tile just above the healer.
+
+The types of characters can be ranked according to how powerful they are in hand-to-hand combat.  The ranking, starting with the most powerful character type is Knight, Healer, Archer and Wizard.
+
+If two or more characters want to move onto the same tile, the character with the highest rank moves there and the other characters who want to move there don't move.  If there is more than one character of that highest rank that wants to move onto a tile, nobody moves. Thus, if two archers and a wizard want to move onto the same tile, none of them move.  The tile stays unoccupied.
+
+If one character attacks another character, the character of lower rank dies. For example, if a healer attacks an archer, or if an archer attacks a healer, the archer dies.  If the two characters are of equal rank, neither dies.
+However, if two or more characters attack the same character regardless of rank, the character being attacked dies.  Thus if both a healer and an archer attack a knight at the same time, the knight dies.
